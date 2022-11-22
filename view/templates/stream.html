@@ -12,15 +12,52 @@
         <div id="principal"> 
             <h1> Bem vindo ao servidor Raspberry Pi </h1>
             <img id="frame" src="">
+            <button id="btn_dc" type="button" class="btn" onclick="st.desconect();">Desconectar</button>
         <script>
-            let ws = new WebSocket("ws://192.168.1.21:8000/ws");
-            let image = document.getElementById("frame");
-            image.onload = function(){
-                URL.revokeObjectURL(this.src); // release the blob URL once the image is loaded
-            } 
-            ws.onmessage = function(event) {
-                image.src = URL.createObjectURL(event.data);
-            };
+            class Streaming {
+                constructor(id) {
+                  this.id = id;
+                  this.ws = new WebSocket(`ws://0.0.0.0:8000/cam/${this.id}`);
+                  this.contador = 20;
+                  let image = document.getElementById("frame");
+                  image.onload = function(){
+                      URL.revokeObjectURL(this.src); // release the blob URL once the image is loaded
+                  } 
+                  this.ws.onmessage = function(event) {
+                      image.src = URL.createObjectURL(event.data);
+                      console.log(event)
+                  };
+                  this.ws.onclose = (event) => {
+                    window.location.href = "/";
+                  };
+                }
+                desconect(){
+                    
+                    this.ws.close();
+                    let image = document.getElementById("frame");
+                    let btn = document.getElementById("btn_dc");
+                    image.style.display = "none";
+                    btn.style.display = "none";
+                    let divPrincipal = document.getElementById("principal");
+                    var text = document.createElement("h2");
+                    divPrincipal.appendChild(text);
+                    this.contagem(text);
+
+                }
+                contagem(label){
+                    setTimeout(() => {
+                        console.log('testeee')
+                        label.innerHTML = `Desconectando (${this.contador})`
+                        this.contador -= 1;
+                        this.contagem(label);
+                    }, 1000)
+                }
+              }
+
+            st = new Streaming({{id}})
+              
+            
+
         </script>
         </div>
     </main>
