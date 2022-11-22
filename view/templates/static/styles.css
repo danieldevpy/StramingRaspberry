@@ -1,0 +1,13 @@
+:root {
+  --blue: #1e90ff;
+  --white: #ffffff;
+}
+/* var(--blue) */
+*
+{
+    background-color: black;
+}
+
+h1 {
+  color:white;
+}
