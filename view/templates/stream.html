@@ -1,12 +1,19 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>Live Streaming</title>
-    </head>
-    <body>
-        <img id="frame" src="">
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <title>Raspberry PI</title>
+    <link href="{{ url_for('static', path='/styles.css') }}" rel="stylesheet">
+</head>
+<body>
+    <main>
+        <div id="principal"> 
+            <h1> Bem vindo ao servidor Raspberry Pi </h1>
+            <img id="frame" src="">
         <script>
-            let ws = new WebSocket("ws://localhost:8000/ws");
+            let ws = new WebSocket("ws://192.168.1.21:8000/ws");
             let image = document.getElementById("frame");
             image.onload = function(){
                 URL.revokeObjectURL(this.src); // release the blob URL once the image is loaded
@@ -15,5 +22,7 @@
                 image.src = URL.createObjectURL(event.data);
             };
         </script>
-    </body>
+        </div>
+    </main>
+</body>
 </html>
