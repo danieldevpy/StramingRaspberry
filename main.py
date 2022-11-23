@@ -25,7 +25,7 @@ def start(request: Request, id: int):
     new_config['id'] = id
     new_config["request"] = request
     new_config["con"] = all_con
-    return templates.TemplateResponse("stream.html", config)
+    return templates.TemplateResponse("stream.html", new_config)
 
 
 @app.websocket("/cam")
@@ -40,6 +40,3 @@ async def get_stream(websocket: WebSocket):
     else:
         print('mais um desconectado')
         all_con -= 1
-
-if __name__ == '__main__':
-    uvicorn.run("main:app", host="0.0.0.0", port=8080, log_level="info", reload=True)
