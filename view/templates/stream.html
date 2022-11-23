@@ -16,13 +16,19 @@
         <main>
             <div id="principal"> 
             <img id="frame" src="">
-            <button id="btn_dc" type="button" class="btn" onclick="st.desconect();">Desconectar</button>
-            <button id="btn_dx" type="button" class="btn" onclick="st.start();">Ativar reconhecimento facial</button>
-        <script>
+            </div>
+        </main>
+        <footer>
+            <button	class="btnf" type="button" class="btn" onclick="st.desconect();">Desconectar</button>
+            <button class="btnf" type="button" class="btn" onclick="st.start();">Ativar reconhecimento facial</button>
+        </footer>
+      </div>
+</footer>
+ <script>
             class Streaming {
                 constructor(id) {
                   this.id = id;
-                  this.ws = new WebSocket(`ws://192.168.1.21:8080/cam`);
+                  this.ws = new WebSocket(`ws://201.32.71.68:8080/cam`);
                   this.message = ''
                   let image = document.getElementById("frame");
                   image.onload = function(){
@@ -57,13 +63,6 @@
             
 
         </script>
-            </div>
-        </main>
-        <footer>
-          Copyright 2022
-        </footer>
-      </div>
-</footer>
 </body>
 </html>
 
