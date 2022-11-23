@@ -3,6 +3,8 @@ from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from modules.exercise import Exercise
 import uvicorn
+import asyncio
+
 
 import time
 
@@ -19,13 +21,18 @@ def index(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
 @app.get('/start/{id}')
-def index(request: Request, id: int):
+def start(request: Request, id: int):
     return templates.TemplateResponse("stream.html", {"request": request, "id": id})
 
-
+@app.post('/config')
+def config(id: int):
+    print(id)
+    return id
+        
 
 @app.websocket("/cam/{id}")
 async def get_stream(websocket: WebSocket, id: int):
-    match id:
-        case 1:
-            await exercise.reconhecimento_facial(websocket)
+    if id == 0:
+        await exercise.normal_cam(websocket)
+    elif id == 1:
+        await exercise.reconhecimento_facial(websocket)

@@ -3,55 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="Cache-control" content="no-cache">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <title>Raspberry PI</title>
-    <link href="{{ url_for('static', path='/styles.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', path='/cam.css') }}" rel="stylesheet">
 </head>
 <body>
-    <main>
-        <div id="principal"> 
-            <h1> Bem vindo ao servidor Raspberry Pi </h1>
-            <img id="frame" src="">
+    <div class="container">
+        <header>
+            Servidor Raspberry Pi v 0.0.1
+        </header>
+        <main>
+            <div id="principal"> 
+                <img id="frame" src="">
             <button id="btn_dc" type="button" class="btn" onclick="st.desconect();">Desconectar</button>
+            <button id="btn_dx" type="button" class="btn" onclick="st.start();">Iniciar</button>
         <script>
             class Streaming {
                 constructor(id) {
                   this.id = id;
-                  this.ws = new WebSocket(`ws://0.0.0.0:8000/cam/${this.id}`);
+                  this.ws = new WebSocket(`ws://201.32.71.68:8080/cam/${this.id}`);
                   this.contador = 20;
+                  this.message = ''
                   let image = document.getElementById("frame");
                   image.onload = function(){
                       URL.revokeObjectURL(this.src); // release the blob URL once the image is loaded
                   } 
                   this.ws.onmessage = function(event) {
                       image.src = URL.createObjectURL(event.data);
-                      console.log(event)
+                      st.send();
                   };
                   this.ws.onclose = (event) => {
                     window.location.href = "/";
                   };
                 }
+                start(){
+                    this.message = 'start'
+                }
+                send(){
+                    this.ws.send(this.message)
+                    this.message = ''
+                   }
                 desconect(){
-                    
+                    this.message = 'exit'
                     this.ws.close();
-                    let image = document.getElementById("frame");
-                    let btn = document.getElementById("btn_dc");
-                    image.style.display = "none";
-                    btn.style.display = "none";
-                    let divPrincipal = document.getElementById("principal");
-                    var text = document.createElement("h2");
-                    divPrincipal.appendChild(text);
-                    this.contagem(text);
+ 
 
                 }
-                contagem(label){
-                    setTimeout(() => {
-                        console.log('testeee')
-                        label.innerHTML = `Desconectando (${this.contador})`
-                        this.contador -= 1;
-                        this.contagem(label);
-                    }, 1000)
-                }
+                
               }
 
             st = new Streaming({{id}})
@@ -59,7 +58,14 @@
             
 
         </script>
-        </div>
-    </main>
+            </div>
+        </main>
+        <footer>
+          Copyright 2022
+        </footer>
+      </div>
+</footer>
 </body>
 </html>
+
+
