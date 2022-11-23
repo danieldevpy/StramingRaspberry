@@ -1,40 +1,47 @@
-// program to display time every 3 seconds
+class Streaming {
+                constructor(id) {
+                  this.id = id;
+                  this.ws = new WebSocket(`ws://201.32.71.68:8080/cam`);
+                  this.message = ''
+                  this.facial = false
+                  let image = document.getElementById("frame");
+                  image.onload = function(){
+                      URL.revokeObjectURL(this.src); // release the blob URL once the image is loaded
+                  } 
+                  this.ws.onmessage = function(event) {
+                      image.src = URL.createObjectURL(event.data);
+                      st.send();
+                  };
+                  this.ws.onclose = (event) => {
+                    window.location.href = "/";
+                  };
+                }
+                command(obj){
+                        if (obj.name == 'facial'){
+                        this.message = 'facial'
+                        if (this.facial){
+                            this.facial = false
+                            obj.style.backgroundColor = "white";
+                        } else{
+                            this.facial = true
+                            obj.style.backgroundColor = "green";
+                        }
+                        
+                    }
+                    
+            
+                }
+                send(){
+                    this.ws.send(this.message)
+                    this.message = ''
+                   }
+                desconect(){
+                    this.message = 'exit'
+                    this.ws.close();
+ 
 
+                }
+                
+              }
 
-
-function showTime() {
-    try {
-            // return new date and time
-        let dateTime= new Date();
-
-        // returns the current local time
-        let time = dateTime.toLocaleTimeString();
-        let hr = document.getElementById("hora")
-        hr.innerHTML = time;
-        let imagem = document.getElementById("imagem")
-        imagem.src = "./static/foto.jpeg"; 
-
-
-
-        var src = $("#imagem").attr('src');
-
-        if( src.indexOf('?') > 0 ) 
-            src = src.substring( 0, src.indexOf('?') );
-
-        var d = new Date();
-        $("#imagem").attr("src", src + '?time=' + d.getTime() );
-
-
-      } catch (error) {
-        // bloco de tratamento do erro
-        console.log('error')
-      } 
-
-      http://192.168.1.8:8080/view/templates/static/foto.jpeg
-
-//     // display the time after 3 seconds
-     setTimeout(showTime, 150);
-}
-
-// // calling the function
-showTime();
+          

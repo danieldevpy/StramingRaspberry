@@ -44,7 +44,11 @@ class Exercise:
     async def commands(self):
         msg = await self.websocket.receive_text()
         if msg == 'facial':
-            print('facial ativo')
-            self.facial_recognition = True
+            if self.facial_recognition:
+                print('facial desativado')
+                self.facial_recognition = False
+            else:
+                print('facial ativado')
+                self.facial_recognition = True
         elif msg == 'exit':
             await self.websocket.close()

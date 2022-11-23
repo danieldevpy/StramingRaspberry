@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <title>Raspberry PI</title>
+    <script src="{{ url_for('static', path='js/script.js') }}"></script>
     <link href="{{ url_for('static', path='css/cam.css') }}" rel="stylesheet">
 </head>
 <body>
@@ -19,50 +20,12 @@
             </div>
         </main>
         <footer>
-            <button	class="btnf" type="button" class="btn" onclick="st.desconect();">Desconectar</button>
-            <button class="btnf" type="button" class="btn" onclick="st.start();">Ativar reconhecimento facial</button>
+            <button	name="desconect"class="btnf" type="button" onclick="st.desconect();">Sair</button>
+            <button name="facial" class="btnf" type="button" onclick="st.command(this);"><img class="icons" src="{{ url_for('static', path='img/face.png') }}" /></button>
         </footer>
       </div>
 </footer>
- <script>
-            class Streaming {
-                constructor(id) {
-                  this.id = id;
-                  this.ws = new WebSocket(`ws://201.32.71.68:8080/cam`);
-                  this.message = ''
-                  let image = document.getElementById("frame");
-                  image.onload = function(){
-                      URL.revokeObjectURL(this.src); // release the blob URL once the image is loaded
-                  } 
-                  this.ws.onmessage = function(event) {
-                      image.src = URL.createObjectURL(event.data);
-                      st.send();
-                  };
-                  this.ws.onclose = (event) => {
-                    window.location.href = "/";
-                  };
-                }
-                start(){
-                    this.message = 'facial'
-                }
-                send(){
-                    this.ws.send(this.message)
-                    this.message = ''
-                   }
-                desconect(){
-                    this.message = 'exit'
-                    this.ws.close();
- 
-
-                }
-                
-              }
-
-            st = new Streaming({{id}})
-              
-            
-
-        </script>
+     <script>   st = new Streaming({{id}}) </script>       
 </body>
 </html>
 
