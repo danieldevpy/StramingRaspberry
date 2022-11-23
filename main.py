@@ -4,14 +4,14 @@ from fastapi.staticfiles import StaticFiles
 from modules.exercise import Exercise
 import uvicorn
 import asyncio
+import cv2
 
 
 import time
 
-exercise = Exercise()
-
 app = FastAPI()
 
+camera = cv2.VideoCapture(0)
 
 app.mount("/static", StaticFiles(directory="view/templates/static"), name="static")
 templates = Jinja2Templates(directory="view/templates")
@@ -32,7 +32,6 @@ def config(id: int):
 
 @app.websocket("/cam/{id}")
 async def get_stream(websocket: WebSocket, id: int):
-    if id == 0:
-        await exercise.normal_cam(websocket)
-    elif id == 1:
-        await exercise.reconhecimento_facial(websocket)
+    await websocket.accept()
+    e = Exercise()
+    await e.start(websocket)
