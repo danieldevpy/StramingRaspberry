@@ -12,7 +12,7 @@ class Exercise:
         self.facial_recognition = False
         self.body_recognition = False
         self.recieve = True
-        self.rotate = 180
+        self.rotate = True
         self.reconhecimento_rosto = mp.solutions.face_detection
         self.desenho = mp.solutions.drawing_utils
         self.reconhecedor_rosto = self.reconhecimento_rosto.FaceDetection()
