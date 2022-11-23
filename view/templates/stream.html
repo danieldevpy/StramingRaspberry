@@ -7,21 +7,25 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <title>Raspberry PI</title>
     <script src="{{ url_for('static', path='js/script.js') }}"></script>
-    <link href="{{ url_for('static', path='css/cam.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', path='css/styles.css') }}" rel="stylesheet">
 </head>
 <body>
     <div class="container">
         <header>
-            Servidor Raspberry Pi v 0.0.1
+            <div id="hd">
+            <h3>Servidor Raspberry Pi</h3>
+           
+            </div>
         </header>
         <main>
-            <div id="principal"> 
+            <div id="cam_principal"> 
             <img id="frame" src="">
             </div>
         </main>
-        <footer>
-            <button	name="desconect"class="btnf" type="button" onclick="st.desconect();">Sair</button>
+        <footer class="footer">
+            <button name="desconect"class="btnf" type="button" onclick="st.desconect();">Sair</button>
             <button name="facial" class="btnf" type="button" onclick="st.command(this);"><img class="icons" src="{{ url_for('static', path='img/face.png') }}" /></button>
+            <button name="rotate" class="btnf" type="button" onclick="st.command(this);"><img class="icons" src="{{ url_for('static', path='img/rotate.png') }}" /></button>
         </footer>
       </div>
 </footer>

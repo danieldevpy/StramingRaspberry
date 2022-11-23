@@ -18,17 +18,12 @@ class Streaming {
                   };
                 }
                 command(obj){
-                        if (obj.name == 'facial'){
-                        this.message = 'facial'
-                        if (this.facial){
-                            this.facial = false
-                            obj.style.backgroundColor = "white";
-                        } else{
-                            this.facial = true
+                        if (obj.style.backgroundColor != 'green'){
                             obj.style.backgroundColor = "green";
+                        } else{
+                            obj.style.backgroundColor = "white";
                         }
-                        
-                    }
+                        this.message = obj.name;
                     
             
                 }

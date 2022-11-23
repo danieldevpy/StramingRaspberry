@@ -17,14 +17,13 @@ templates = Jinja2Templates(directory="view/templates")
 @app.get('/')
 def index(request: Request):
     return templates.TemplateResponse(
-        "index.html", {"request": request})
+        "index.html", {"request": request, "conexoes": all_con})
 
 @app.get('/start/{id}')
 def start(request: Request, id: int):
     new_config = config
     new_config['id'] = id
     new_config["request"] = request
-    new_config["con"] = all_con
     return templates.TemplateResponse("stream.html", new_config)
 
 
