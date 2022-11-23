@@ -1,7 +1,8 @@
 class Streaming {
-                constructor(id) {
+                constructor(id, ip_externo, port) {
                   this.id = id;
-                  this.ws = new WebSocket(`ws://201.32.71.68:8080/cam`);
+                  console.log(id);
+                  this.ws = new WebSocket(`ws:/${ip_externo}:${port}/cam`);
                   this.message = ''
                   this.facial = false
                   let image = document.getElementById("frame");
