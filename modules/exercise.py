@@ -32,16 +32,18 @@ class Exercise:
                         if lista_rostos.detections:
                             for rosto in lista_rostos.detections:
                                 self.desenho.draw_detection(frame, rosto)
-                       
                     ret, buffer = cv2.imencode('.jpg', frame,)
                     await websocket.send_bytes(buffer.tobytes())
                     if self.recieve:
-                        self.commands();
+                        await self.commands();
 
         except WebSocketDisconnect:
             print("Client disconnected")
                 
     async def commands(self):
-        msg = self.websocket.receive_text()
-        if msg == 'exit':
+        msg = await self.websocket.receive_text()
+        if msg == 'facial':
+            print('facial ativo')
+            self.facial_recognition = True
+        elif msg == 'exit':
             await self.websocket.close()

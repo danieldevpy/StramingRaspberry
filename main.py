@@ -24,14 +24,9 @@ def index(request: Request):
 def start(request: Request, id: int):
     return templates.TemplateResponse("stream.html", {"request": request, "id": id})
 
-@app.post('/config')
-def config(id: int):
-    print(id)
-    return id
-        
 
-@app.websocket("/cam/{id}")
-async def get_stream(websocket: WebSocket, id: int):
+@app.websocket("/cam")
+async def get_stream(websocket: WebSocket):
     await websocket.accept()
-    e = Exercise()
+    e = Exercise(cam=camera)
     await e.start(websocket)
