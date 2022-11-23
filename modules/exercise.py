@@ -17,7 +17,7 @@ class Exercise:
         self.desenho = mp.solutions.drawing_utils
         self.reconhecedor_rosto = self.reconhecimento_rosto.FaceDetection()
 
-    async def start(self, websocket: WebSocket):
+    async def view(self, websocket: WebSocket):
         self.websocket = websocket
         try:
             while True:
@@ -39,6 +39,7 @@ class Exercise:
 
         except WebSocketDisconnect:
             print("Client disconnected")
+            return False
                 
     async def commands(self):
         msg = await self.websocket.receive_text()

@@ -11,6 +11,7 @@ import time
 
 app = FastAPI()
 
+all_con = 0
 camera = cv2.VideoCapture(0)
 
 app.mount("/static", StaticFiles(directory="view/templates/static"), name="static")
@@ -18,7 +19,7 @@ templates = Jinja2Templates(directory="view/templates")
 
 @app.get('/')
 def index(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
+    return templates.TemplateResponse("index.html", {"request": request, "con": all_con})
 
 @app.get('/start/{id}')
 def start(request: Request, id: int):
@@ -27,6 +28,13 @@ def start(request: Request, id: int):
 
 @app.websocket("/cam")
 async def get_stream(websocket: WebSocket):
+    global all_con
     await websocket.accept()
     e = Exercise(cam=camera)
-    await e.start(websocket)
+    all_con += 1
+    r = await e.view(websocket)
+    if r:
+        pass
+    else:
+        all_con -= 1
+        

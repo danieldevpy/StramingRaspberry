@@ -18,14 +18,24 @@ body {
   flex-direction: column;
   height: 100%;
 }
+p, h3{
+    margin:0;
+    padding:0;
+}
 header {
   background-color: #3a3a3a;
   width: 100%;
   height: 10%;
+
+}
+#hd {
+  width: 100%;
+  height: 100%;
   color: #fff;
   display:flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content:center;
 }
 main {
   flex: 1;
@@ -67,9 +77,13 @@ h1, h2 {
 }
 
 .imgs {
-    width%
+    width: 100%;
 }
 
+.h{
+    width:100%;
+    height: 100%;
+}
 @media (max-width: 574px){
       
       #principal {
