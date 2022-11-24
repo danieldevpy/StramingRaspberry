@@ -3,15 +3,23 @@ class Streaming {
                   this.id = id;
                   console.log(id);
                   this.ws = new WebSocket(`ws://${ip}:${port}/cam`);
-                  this.message = ''
-                  this.facial = false
+                  this.message = 'echo';
+                  this.facial = false;
+                  this.fps = 0;
                   let image = document.getElementById("frame");
                   image.onload = function(){
                       URL.revokeObjectURL(this.src); // release the blob URL once the image is loaded
                   } 
                   this.ws.onmessage = function(event) {
                       image.src = URL.createObjectURL(event.data);
-                      st.send();
+                      console.log(this.fps);
+                      if (this.fps < 60){
+                          this.fps += 1;
+                      }else{
+                          this.fps = 0;
+                          st.send();
+                          console.log('enviando')
+                      }
                   };
                   this.ws.onclose = (event) => {
                     window.location.href = "/";
@@ -29,7 +37,6 @@ class Streaming {
                 }
                 send(){
                     this.ws.send(this.message)
-                    this.message = ''
                    }
                 desconect(){
                     this.message = 'exit'
