@@ -33,10 +33,11 @@ class Exercise:
                     await asyncio.sleep(0.01)
                
                 frame = cv2.rotate(frame, cv2.ROTATE_180)
-                videoRGB = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-                results = self.Pose.process(videoRGB)
-                points = results.pose_landmarks
-                self.draw.draw_landmarks(frame, points, self.pose.POSE_CONNECTIONS)
+                if self.body_recognition:
+                    videoRGB = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                    results = self.Pose.process(videoRGB)
+                    points = results.pose_landmarks
+                    self.draw.draw_landmarks(frame, points, self.pose.POSE_CONNECTIONS)
                 
                 ret, buffer = cv2.imencode('.jpg', frame,)
                 await websocket.send_bytes(buffer.tobytes())
