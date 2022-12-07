@@ -6,10 +6,12 @@ from config import config
 import uvicorn
 import cv2
 
-app = FastAPI()
 
-all_con = 0
 camera = cv2.VideoCapture(config['port_cam'])
+
+app = FastAPI()
+exercise = Exercise(cam=camera)
+all_con = 0
 
 app.mount("/static", StaticFiles(directory="view/templates/static"), name="static")
 templates = Jinja2Templates(directory="view/templates")
@@ -31,11 +33,5 @@ def start(request: Request, id: int):
 async def get_stream(websocket: WebSocket):
     global all_con
     await websocket.accept()
-    e = Exercise(cam=camera)
-    all_con += 1
-    r = await e.view(websocket)
-    if r:
-        pass
-    else:
-        print('mais um desconectado')
-        all_con -= 1
+
+    r = await exercise.view(websocket)
